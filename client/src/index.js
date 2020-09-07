@@ -8,11 +8,15 @@ import '../node_modules/uikit/dist/css/uikit.min.css'
 
 import { Provider } from 'react-redux'
 import store from './store/store'
+import { setPage, setArticles } from './store/actions'
 
 import App from './App'
 
 // loads the Icon plugin
 UIkit.use(Icons)
+
+store.dispatch(setPage(2))
+store.dispatch(setArticles())
 
 ReactDOM.render(
   <React.StrictMode>

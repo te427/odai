@@ -1,4 +1,4 @@
-import { SET_PAGE } from './actions'
+import { SET_PAGE, SET_ARTICLES } from './actions'
 
 const initialState = {
   page: {
@@ -32,6 +32,8 @@ function pagesApp(state = initialState, action) {
   switch(action.type) {
     case SET_PAGE:
       return { ...state, page: action.page }
+    case SET_ARTICLES:
+      return { ...state, articles: action.articles }
     default:
       return state
   }
