@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { setPage } from '../store/actions'
 
 const ArticleNav = (name, id, onClick) => (
-  <li class="uk-nav-sub">
+  <li class="uk-nav-sub indented">
     <a href="#" onClick={onClick(id)}>{ name }</a>
   </li>
 )
