@@ -1,15 +1,20 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setPage } from '../store/actions'
+import { Link, useRouteMatch } from 'react-router-dom'
+import { setPage } from '../../store/actions'
 
-const ArticleNav = (name, id, onClick) => (
-  <li class="uk-nav-sub indented">
-    <a href="#" onClick={onClick(id)}>{ name }</a>
-  </li>
-)
+const ArticleNav = (name, id, onClick) => {
+  const match = useRouteMatch()
+
+  return (
+    <li class="uk-nav-sub double-indented">
+      <Link to={`${match.url}/${name}`} onClick={onClick(id)}>{ name }</Link>
+    </li>
+  )
+}
 
 const MonthNav = (month, articles, onClick) => (
-  <li class="uk-parent">
+  <li class="uk-parent indented">
     <a href="#">{ month }</a>
     <ul>
       {Object.keys(articles).map(name => ArticleNav(name, articles[name], onClick))}
