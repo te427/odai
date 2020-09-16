@@ -31,13 +31,17 @@ const YearNav = (year, articles, onClick) => (
   </li>
 )
 
-const SubNav = ({ articles, onClick }) => (
-  <ul class="uk-nav-default" uk-nav="collapsible: true;">
-    {Object.keys(articles).map(year => YearNav(year, articles[year], onClick))}
-  </ul>
+const SubNav = ({ articles, loggedIn, onClick }) => (
+  <div>
+    <ul class="uk-nav-default" uk-nav="collapsible: true;">
+      {Object.keys(articles).map(year => YearNav(year, articles[year], onClick))}
+    </ul>
+  </div>
 )
 
-const mapStateToProps = (state) => ({ articles: state.articles })
+const mapStateToProps = (state) => (
+  { articles: state.articles, loggedIn: state.auth.loggedIn }
+)
 
 const mapDispatchToProps = (dispatch) => {
   return {

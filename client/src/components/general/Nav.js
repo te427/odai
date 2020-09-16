@@ -7,7 +7,7 @@ const Nav = () => (
   <div class="uk-card uk-width-1-5">
     <div>
       THE <br/>
-      <b>ECHO</b> <br/>
+      <Link to="/login"><b>ECHO</b></Link> <br/>
       CHAMBER <br/>
     </div>
     <hr class="uk-divider"/>

@@ -1,6 +1,11 @@
-import { SET_PAGE, SET_ARTICLES } from './actions'
+import { SET_PAGE, SET_ARTICLES, SET_LOGIN, SET_CSRF, SET_LOGOUT } from './actions'
 
 const initialState = {
+  auth: {
+    csrf: null,
+    username: null,
+    loggedIn: false
+  },
   page: {
     titleText: 'This is a page from the store',
     creationDate: Date(),
@@ -30,6 +35,18 @@ const initialState = {
 
 function pagesApp(state = initialState, action) {
   switch(action.type) {
+    case SET_CSRF:
+      return { ...state, auth: { ...state.auth, csrf: action.csrf}}
+    case SET_LOGIN:
+      return { ...state, 
+        auth: {
+          ...state.auth,
+          username: action.info.username,
+          loggedIn: action.info.loggedIn 
+        }
+      }
+    case SET_LOGOUT:
+      return { ...state, auth: { ...state.auth, username: null, loggedIn: false}}
     case SET_PAGE:
       return { ...state, page: action.page }
     case SET_ARTICLES:

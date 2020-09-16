@@ -9,7 +9,7 @@ import './app.css'
 
 import { Provider } from 'react-redux'
 import store from './store/store'
-import { setPage, setArticles } from './store/actions'
+import { setCsrf, setPage, setArticles } from './store/actions'
 
 import App from './App'
 
@@ -18,6 +18,7 @@ UIkit.use(Icons)
 
 store.dispatch(setPage(2))
 store.dispatch(setArticles())
+store.dispatch(setCsrf())
 
 ReactDOM.render(
   <React.StrictMode>
