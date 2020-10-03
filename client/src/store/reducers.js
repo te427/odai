@@ -1,43 +1,52 @@
-import { SET_PAGE, SET_ARTICLES, SET_LOGIN, SET_CSRF, SET_LOGOUT } from './actions'
+import * as actions from './actions'
+import auth from '../services/auth'
+
+let username = auth.getUsername()
+debugger
 
 const initialState = {
   auth: {
     csrf: null,
-    username: null,
-    loggedIn: false
-  },
-  page: {
-    titleText: 'This is a page from the store',
-    creationDate: Date(),
-    modificationDate: Date(),
-    pageText: 'This is some body text' 
+    username,
+    loggedIn: !!username 
   },
   articles: {
-    [2019]: {
-      September: {
-        ['The Song of Boo']: 1,
-        ['Outer Limits']: 2
+    detail: {
+      id: 0,
+      titleText: 'This is a page from the store',
+      creationDate: Date(),
+      modificationDate: Date(),
+      articleText: 'This is some body text',
+      isDraft: false
+    },
+    list: {
+      [2019]: {
+        September: {
+          ['The Song of Boo']: 1,
+          ['Outer Limits']: 2
+        },
+        December: {
+          ['A Dream of Boo']: 3
+        }
       },
-      December: {
-        ['A Dream of Boo']: 3
+      [2020]: {
+        July: {
+          ['The Year So Far']: 4
+        },
+        August: {
+          ['Springtime']: 5
+        }
       }
     },
-    [2020]: {
-      July: {
-        ['The Year So Far']: 4
-      },
-      August: {
-        ['Springtime']: 5
-      }
-    }
-  }
+    editing: false
+  },
 }
 
 function pagesApp(state = initialState, action) {
   switch(action.type) {
-    case SET_CSRF:
+    case actions.SET_CSRF:
       return { ...state, auth: { ...state.auth, csrf: action.csrf}}
-    case SET_LOGIN:
+    case actions.SET_LOGIN:
       return { ...state, 
         auth: {
           ...state.auth,
@@ -45,12 +54,20 @@ function pagesApp(state = initialState, action) {
           loggedIn: action.info.loggedIn 
         }
       }
-    case SET_LOGOUT:
+    case actions.SET_LOGOUT:
       return { ...state, auth: { ...state.auth, username: null, loggedIn: false}}
-    case SET_PAGE:
-      return { ...state, page: action.page }
-    case SET_ARTICLES:
-      return { ...state, articles: action.articles }
+    case actions.SET_ARTICLE:
+      return { ...state, articles: { ...state.articles, detail: action.article } }
+    case actions.SET_ARTICLES:
+      return { ...state, articles: { ...state.articles, list: action.list } }
+    case actions.SET_EDITING:
+      return { ...state, articles: { ...state.articles, editing: action.editing } }
+    case actions.SAVE_ARTICLE:
+      return { ...state, articles: { ...state.articles, detail: action.article } }
+    case actions.DELETE_ARTICLE:
+      return { ...state, articles: {
+        ...state.articles,
+        list: state.articles.list.filter(a => a.id === action.article.id) }}
     default:
       return state
   }

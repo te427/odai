@@ -31,10 +31,10 @@ export default {
   async logout() {
     return f('api-auth/logout/')
   },
-  async pages() {
-    return (await l(f('api/pages/'))).map(obj => c(obj))
+  async articles() {
+    return (await l(f('api/articles/'))).map(obj => c(obj))
   },
-  async page(id) {
-    return o(f(`api/pages/${id}`))
+  async article(id) {
+    return o(f(`api/articles/${id}`))
   }
 }

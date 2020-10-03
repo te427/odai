@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link, useRouteMatch } from 'react-router-dom'
-import { setPage } from '../../store/actions'
+import { setArticle } from '../../store/actions'
 
 const ArticleNav = (name, id, onClick) => {
   const match = useRouteMatch()
@@ -31,7 +31,7 @@ const YearNav = (year, articles, onClick) => (
   </li>
 )
 
-const SubNav = ({ articles, loggedIn, onClick }) => (
+const SubNav = ({ articles, onClick }) => (
   <div>
     <ul class="uk-nav-default" uk-nav="collapsible: true;">
       {Object.keys(articles).map(year => YearNav(year, articles[year], onClick))}
@@ -40,13 +40,13 @@ const SubNav = ({ articles, loggedIn, onClick }) => (
 )
 
 const mapStateToProps = (state) => (
-  { articles: state.articles, loggedIn: state.auth.loggedIn }
+  { articles: state.articles.list }
 )
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onClick: id => {
-      return () => dispatch(setPage(id))
+      return () => dispatch(setArticle(id))
     }
   }
 }

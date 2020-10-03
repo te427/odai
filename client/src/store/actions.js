@@ -1,19 +1,22 @@
-import pages from '../services/pages'
+import articles from '../services/articles'
 import auth from '../services/auth'
 import notification from '../services/notification'
 
+// auth
 export const SET_CSRF = 'SET_CSRF'
 export const SET_LOGIN = 'SET_LOGIN'
 export const SET_LOGOUT = 'SET_LOGOUT'
-export const SET_PAGE = 'SET_PAGE'
+
+// article
+export const SET_ARTICLE = 'SET_ARTICLE'
 export const SET_ARTICLES = 'SET_ARTICLES'
+export const SET_EDITING = 'SET_EDITING'
+export const SAVE_ARTICLE = 'SAVE_ARTICLE'
+export const DELETE_ARTICLE = 'DELETE_ARTICLE'
 
 export function setCsrf() {
   return async (dispatch) => {
-    let csrf = document.cookie
-      .split(';')
-      .find(c => c.includes('csrf'))
-      .split('=')[1]
+    let csrf = auth.getCsrf()
 
     dispatch({ type: SET_CSRF, csrf })
   }
@@ -23,8 +26,7 @@ export function setLogin(form) {
   return async (dispatch) => {
     let res = await auth.authenticate(form)
 
-    // a lazy hack
-    let loggedIn = res.status === 404
+    let loggedIn = res.ok
     let username = form.get('username')
 
     if (loggedIn) {
@@ -52,16 +54,40 @@ export function setLogout() {
   }
 }
 
-export function setPage(id) {
+export function setArticle(id) {
   return async (dispatch) => {
-    const page = await pages.page(id)
-    dispatch({ type: SET_PAGE, page })
+    const article = await articles.article(id)
+    dispatch({ type: SET_ARTICLE, article })
   }
 }
 
 export function setArticles() {
   return async (dispatch) => {
-    const articles = await pages.articles()
-    dispatch({ type: SET_ARTICLES, articles })
+    const list = await articles.articles()
+    dispatch({ type: SET_ARTICLES, list })
+  }
+}
+
+export function setEditing(editing) {
+  return async (dispatch) => {
+    dispatch({ type: SET_EDITING, editing })
+  }
+}
+
+export function saveArticle() {
+  return async (dispatch, getState) => {
+    let { article } = getState().articles
+    await articles.saveArticle(article)
+
+    dispatch({ type: SAVE_ARTICLE, article })
+  }
+}
+
+export function deleteArticle() {
+  return async (dispatch, getState) => {
+    let { article } = getState().articles
+    await articles.deleteArticle(article)
+
+    dispatch({ type: DELETE_ARTICLE, article })
   }
 }

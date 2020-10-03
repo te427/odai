@@ -17,21 +17,21 @@ function convertDatesToString(p) {
 }
 
 export default {
-  async page(id) {
-    const page = await api.page(id)
+  async article(id) {
+    const article = await api.article(id)
 
-    convertDatesToString(page)
+    convertDatesToString(article)
 
-    return page
-  },
-  async pages() {
-    return api.pages()
+    return article
   },
   async articles() {
-    const pages = await api.pages()
+    return api.articles()
+  },
+  async articles() {
+    const res = await api.articles()
     const articles = {}
 
-    pages.forEach(p => {
+    res.forEach(p => {
       convertDatesToDate(p)
 
       let date = p.creationDate
@@ -45,5 +45,11 @@ export default {
     })
 
     return articles
+  },
+  async save(article) {
+    return await api.saveArticle(article)
+  },
+  async delete(article) {
+    return await api.deleteArticle(article)
   }
 }

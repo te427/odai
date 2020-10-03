@@ -1,6 +1,6 @@
 from django.contrib import admin
-from pages.models import Page
+from articles.models import Article
 
 # Register your models here.
 
-admin.site.register(Page)
+admin.site.register(Article)
