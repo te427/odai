@@ -6,7 +6,7 @@ import ArticleSubNav from '../articles/SubNav'
 const Nav = () => (
   <div class="uk-card uk-width-1-5">
     <div>
-      <Link to="/login"><b>TE427</b></Link> <br/>
+      TE <Link to="/login"><b>427</b></Link> <br/>
     </div>
     <hr class="uk-divider"/>
     <ul class="uk-nav uk-nav-default">
@@ -15,9 +15,6 @@ const Nav = () => (
       </li>
       <li>
         <Link to="/articles">ARTICLES</Link>
-      </li>
-      <li>
-        <Link to="/recipes">RECIPES</Link>
       </li>
     </ul>
     <hr className="uk-divider"/>
