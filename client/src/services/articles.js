@@ -1,19 +1,38 @@
 import api from './api'
-function convertDatesToDate(p) {
-  p.creationDate = new Date(p.creationDate)
 
-  if (p.modificationDate) {
-    p.modificationDate = new Date(p.modificationDate)
+function convertDatesToDate(article) {
+  article.creationDate = new Date(article.creationDate)
+
+  if (article.modificationDate) {
+    article.modificationDate = new Date(article.modificationDate)
   }
 }
 
-function convertDatesToString(p) {
-  convertDatesToDate(p)
-  p.creationDate = p.creationDate.toLocaleString()
+function convertDatesToString(article) {
+  convertDatesToDate(article)
+  article.creationDate = article.creationDate.toLocaleString()
 
-  if (p.modificationDate) {
-    p.modificationDate = p.modificationDate.toLocaleString()
+  if (article.modificationDate) {
+    article.modificationDate = article.modificationDate.toLocaleString()
   }
+}
+
+function addRouteName(article) {
+  article.routeName = article.titleText.replace(/ /, '-')
+}
+
+var cache
+const hasCache = () => !!cache
+
+async function getArticles() {
+  if (!hasCache()) {
+    cache = await api.articles()
+  }
+
+  cache.forEach(convertDatesToDate)
+  cache.forEach(addRouteName)
+
+  return cache
 }
 
 export default {
@@ -24,24 +43,32 @@ export default {
 
     return article
   },
-  async articles() {
-    return api.articles()
-  },
-  async articles() {
-    const res = await api.articles()
+  async articlesByName() {
+    const res = await getArticles()
     const articles = {}
 
-    res.forEach(p => {
-      convertDatesToDate(p)
+    res.forEach(article => {
+      convertDatesToDate(article)
 
-      let date = p.creationDate
+      articles[article.titleText] = article
+    })
+
+    return articles
+  },
+  async articles() {
+    const res = await getArticles()
+    const articles = {}
+
+    res.forEach(article => {
+
+      let date = article.creationDate
       let year = date.getFullYear()
       let month = date.toLocaleString('default', { month: 'long' })
 
       articles[year] = articles[year] || {}
       articles[year][month] = articles[year][month] || {}
 
-      articles[year][month][p.titleText] = p
+      articles[year][month][article.titleText] = article
     })
 
     return articles

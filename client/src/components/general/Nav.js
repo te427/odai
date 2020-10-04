@@ -22,7 +22,7 @@ const Nav = () => (
         <Link to="/recipes">RECIPES</Link>
       </li>
     </ul>
-    <hr class="uk-divider"/>
+    <hr className="uk-divider"/>
     <Switch>
       <Route path="/articles">
         <ArticleSubNav/>

@@ -61,6 +61,7 @@ export function setArticle(id) {
   return async (dispatch) => {
     if(!id) {
       dispatch({ type: SET_ARTICLE, article: {} })
+      return
     }
 
     const article = await articles.article(id)
@@ -72,7 +73,19 @@ export function setArticle(id) {
 export function setArticles() {
   return async (dispatch) => {
     const list = await articles.articles()
-    dispatch({ type: SET_ARTICLES, list })
+    const dict = await articles.articlesByName()
+
+    dispatch({ type: SET_ARTICLES, data: { list, dict } })
+
+    let paths = window.location.pathname
+      .split('/')
+    let current = paths.length > 2 ? paths[2] : ''
+
+    let article = !!current.length
+      ? dict[current.replace(/-/, ' ')]
+      : {}
+
+    setArticle(article.id)(dispatch)
   }
 }
 

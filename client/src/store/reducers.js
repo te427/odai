@@ -17,30 +17,17 @@ const initialState = {
     },
     detail: {
       id: 0,
-      titleText: 'This is a page from the store',
+      titleText: '',
       creationDate: Date(),
       modificationDate: Date(),
-      articleText: 'This is some body text',
+      articleText: '',
       isDraft: false
     },
     list: {
-      [2019]: {
-        September: {
-          ['The Song of Boo']: 1,
-          ['Outer Limits']: 2
-        },
-        December: {
-          ['A Dream of Boo']: 3
-        }
-      },
-      [2020]: {
-        July: {
-          ['The Year So Far']: 4
-        },
-        August: {
-          ['Springtime']: 5
-        }
-      }
+      // year{ month: { name: article } }  
+    },
+    dict: {
+      // name: article
     },
     editing: false
   },
@@ -63,7 +50,8 @@ function pagesApp(state = initialState, action) {
     case actions.SET_ARTICLE:
       return { ...state, articles: { ...state.articles, detail: action.article } }
     case actions.SET_ARTICLES:
-      return { ...state, articles: { ...state.articles, list: action.list } }
+      let { list, dict } = action.data
+      return { ...state, articles: { ...state.articles, list, dict } }
     case actions.SET_EDITING:
       return { ...state, articles: { ...state.articles, editing: action.editing } }
     case actions.SET_PUBLISHED:

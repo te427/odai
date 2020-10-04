@@ -2,6 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Route, useRouteMatch } from 'react-router-dom'
 
+import store from '../../store/store'
+import { setArticles } from '../../store/actions'
+
 import {
   newArticle,
   saveArticle,
@@ -13,6 +16,10 @@ import {
 
 import Content from './Content'
 import Edit from './Edit'
+
+import { Prompt } from 'react-router-dom'
+
+store.dispatch(setArticles())
 
 const Article = ({
     hasArticle,
@@ -27,6 +34,16 @@ const Article = ({
     deleteArticle }) => {
   const match = useRouteMatch()
 
+  function handleNav() {
+    let nav = window.confirm('You will lose your edits if you continue - proceed?')
+
+    if (nav) {
+      store.dispatch(setEditing(false))
+    }
+
+    return true
+  }
+
   const modifyButtons = editing
     ? (<span>
         <button class="uk-button uk-button-default"
@@ -40,7 +57,7 @@ const Article = ({
         <button class="uk-button uk-button-danger"
             onClick={deleteArticle}>DELETE</button>
       </span>)
-    : hasArticle
+    : hasArticle && !match.isExact
       ? (<button class="uk-button uk-button-default"
           onClick={startEditing}>EDIT</button>) 
       : null
@@ -57,9 +74,10 @@ const Article = ({
   return (
     <div class="uk-card uk-width-3-5">
       {editMenu}
+      <Prompt when={editing} message={handleNav} />
       <Route path={`${match.path}/:articleName`}>
         {content}
-     </Route>
+      </Route>
     </div>
   ) 
 }

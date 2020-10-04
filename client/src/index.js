@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import UIkit from 'uikit'
 import Icons from 'uikit/dist/js/uikit-icons'
@@ -9,21 +10,21 @@ import './app.css'
 
 import { Provider } from 'react-redux'
 import store from './store/store'
-import { setCsrf, setArticle, setArticles } from './store/actions'
+import { setCsrf } from './store/actions'
 
 import App from './App'
 
 // loads the Icon plugin
 UIkit.use(Icons)
 
-store.dispatch(setArticle(1))
-store.dispatch(setArticles())
 store.dispatch(setCsrf())
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
