@@ -21,16 +21,22 @@ function addRouteName(article) {
   article.routeName = article.titleText.replace(/ /, '-')
 }
 
+function addMonthAndYear(article, month, year) {
+  article.year = year
+  article.month = month
+}
+
 var cache
 const hasCache = () => !!cache
 
-async function getArticles() {
-  if (!hasCache()) {
+async function getArticles(refresh) {
+  if (!hasCache() || refresh) {
     cache = await api.articles()
   }
 
   cache.forEach(convertDatesToDate)
   cache.forEach(addRouteName)
+  cache.forEach(addMonthAndYear)
 
   return cache
 }
@@ -38,6 +44,14 @@ async function getArticles() {
 export default {
   async article(id) {
     const article = await api.article(id)
+
+    convertDatesToDate(article)
+
+    let date = article.creationDate
+    let year = date.getFullYear()
+    let month = date.toLocaleString('default', { month: 'long' })
+
+    addMonthAndYear(article, month, year)
 
     convertDatesToString(article)
 
@@ -55,12 +69,11 @@ export default {
 
     return articles
   },
-  async articles() {
-    const res = await getArticles()
+  async articles(refresh) {
+    const res = await getArticles(refresh)
     const articles = {}
 
     res.forEach(article => {
-
       let date = article.creationDate
       let year = date.getFullYear()
       let month = date.toLocaleString('default', { month: 'long' })

@@ -70,9 +70,19 @@ export function setArticle(id) {
   }
 }
 
-export function setArticles() {
+export function setArticleByName(name) {
+  return async (dispatch, getState) => {
+    const id = getState().articles.dict[name].id
+
+    const article = await articles.article(id)
+
+    dispatch({ type: SET_ARTICLE, article })
+  }
+}
+
+export function setArticles(refresh = false) {
   return async (dispatch) => {
-    const list = await articles.articles()
+    const list = await articles.articles(refresh)
     const dict = await articles.articlesByName()
 
     dispatch({ type: SET_ARTICLES, data: { list, dict } })
@@ -85,7 +95,7 @@ export function setArticles() {
       ? dict[current.replace(/-/, ' ')]
       : {}
 
-    setArticle(article.id)(dispatch)
+    setArticle(article ? article.id : null)(dispatch)
   }
 }
 
@@ -147,7 +157,8 @@ export function saveArticle() {
 
     dispatch({ type: SET_EDITING, editing: false })
 
-    setArticles()(dispatch)
+    setArticles(true)(dispatch)
+      .then(() => setArticleByName(article.titleText)(dispatch, getState))
   }
 }
 
@@ -157,11 +168,10 @@ export function deleteArticle() {
     if (!del) return
 
     let { detail } = getState().articles
+
     await articles.delete(detail.id)
 
     dispatch({ type: DELETE_ARTICLE, article: detail })
     dispatch({ type: SET_EDITING, editing: false })
-
-    setArticles()(dispatch)
   }
 }

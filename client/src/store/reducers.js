@@ -21,7 +21,9 @@ const initialState = {
       creationDate: Date(),
       modificationDate: Date(),
       articleText: '',
-      isDraft: false
+      isDraft: false,
+      year: 0,
+      month: ''
     },
     list: {
       // year{ month: { name: article } }  
@@ -89,7 +91,23 @@ function pagesApp(state = initialState, action) {
       return { ...state, articles: { ...state.articles, detail: action.article } }
     case actions.DELETE_ARTICLE:
       // make this delete the article
-      return { ...state, articles: { ...state.articles, detail: {}, draft: {}}}
+      let { year, month, titleText } = action.article
+
+      let deletedList = { ...state.articles.list }
+      delete deletedList[year][month][titleText]
+
+      let deletedDict = { ...state.articles.dict }
+      delete deletedDict[titleText]
+
+      return { ...state,
+        articles: { 
+          ...state.articles,
+          list: deletedList,
+          dict: deletedDict,
+          detail: {},
+          draft: {}
+        }
+      }
     default:
       return state
   }
