@@ -41,7 +41,7 @@ export default {
       articles[year] = articles[year] || {}
       articles[year][month] = articles[year][month] || {}
 
-      articles[year][month][p.titleText] = p.id
+      articles[year][month][p.titleText] = p
     })
 
     return articles
@@ -49,7 +49,7 @@ export default {
   async save(article) {
     return await api.saveArticle(article)
   },
-  async delete(article) {
-    return await api.deleteArticle(article)
+  async delete(id) {
+    return await api.deleteArticle(id)
   }
 }

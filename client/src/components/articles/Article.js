@@ -2,43 +2,53 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Route, useRouteMatch } from 'react-router-dom'
 
-import { saveArticle, deleteArticle, setEditing } from '../../store/actions'
+import {
+  newArticle,
+  saveArticle,
+  deleteArticle,
+  setPublished,
+  setEditing,
+  discardArticle
+} from '../../store/actions'
 
 import Content from './Content'
 import Edit from './Edit'
 
 const Article = ({
-    article,
+    hasArticle,
+    isDraft,
     loggedIn,
     editing,
+    newArticle,
     saveArticle,
+    togglePublish,
     startEditing,
-    stopEditing,
+    discardArticle,
     deleteArticle }) => {
   const match = useRouteMatch()
 
   const modifyButtons = editing
-    ? (<div>
+    ? (<span>
         <button class="uk-button uk-button-default"
             onClick={saveArticle}>SAVE</button>
-        <button class="uk-button uk-button-default"
-            onClick={stopEditing}>DISCARD</button>
-      </div>)
-    : (<button class="uk-button uk-button-default"
-          onClick={startEditing}>EDIT</button>) 
-
-  const statusButton = (
-    <button class="uk-button uk-button-secondary">
-      { article.isDraft ? "PUBLISH" : "MARK AS DRAFT"}
-    </button>
-  )
-
-  const editMenu = loggedIn 
-    ? (<div class="uk-card uk-margin">
-        {modifyButtons}
-        {statusButton}
+        <button class="uk-button uk-button-danger"
+            onClick={discardArticle}>DISCARD</button>
+        <button class="uk-button uk-button-secondary"
+            onClick={togglePublish}>
+          { isDraft ? "PUBLISH" : "MARK AS DRAFT"}
+        </button>
         <button class="uk-button uk-button-danger"
             onClick={deleteArticle}>DELETE</button>
+      </span>)
+    : hasArticle
+      ? (<button class="uk-button uk-button-default"
+          onClick={startEditing}>EDIT</button>) 
+      : null
+
+  const editMenu = loggedIn
+    ? (<div class="uk-card uk-margin">
+        <button class="uk-button uk-button-primary" onClick={newArticle}>NEW</button>
+        {modifyButtons}
       </div>)
     : null
 
@@ -51,29 +61,24 @@ const Article = ({
         {content}
      </Route>
     </div>
-  )
+  ) 
 }
 
 const mapStateToProps = (state) => ({
-  article: state.articles.detail,
+  hasArticle: !!Object.keys(state.articles.detail).length,
+  isDraft: state.articles.draft.isDraft,
   loggedIn: state.auth.loggedIn,
   editing: state.articles.editing
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveArticle: () => {
-      return () => dispatch(saveArticle())
-    },
-    startEditing: () => {
-      return () => dispatch(setEditing(true))
-    },
-    stopEditing: () => {
-      return () => dispatch(setEditing(true))
-    },
-    deleteArticle: () => {
-      return () => dispatch(deleteArticle())
-    }
+    newArticle: () => dispatch(newArticle()),
+    saveArticle: () => dispatch(saveArticle()),
+    startEditing: () => dispatch(setEditing(true)),
+    togglePublish: () => dispatch(setPublished()),
+    discardArticle: () => dispatch(discardArticle()),
+    deleteArticle: () => dispatch(deleteArticle())
   }
 }
   

@@ -21,16 +21,12 @@ export default {
     if (res.ok) {
       let username = form.get('username')
       document.cookie = `loggedIn=${username}`
-      debugger
     }
 
     return res
   },
   async logout() {
-    document.cookie = document.cookie
-      .split(';')
-      .filter(c => !c.includes('loggedIn'))
-      .join(';')
+    document.cookie = 'loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 GMT'
     return api.logout()
   }
 }

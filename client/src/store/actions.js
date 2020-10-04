@@ -11,6 +11,9 @@ export const SET_LOGOUT = 'SET_LOGOUT'
 export const SET_ARTICLE = 'SET_ARTICLE'
 export const SET_ARTICLES = 'SET_ARTICLES'
 export const SET_EDITING = 'SET_EDITING'
+export const SET_PUBLISHED = 'SET_PUBLISHED'
+export const NEW_ARTICLE = 'NEW_ARTICLE'
+export const EDIT_ARTICLE = 'EDIT_ARTICLE'
 export const SAVE_ARTICLE = 'SAVE_ARTICLE'
 export const DELETE_ARTICLE = 'DELETE_ARTICLE'
 
@@ -56,7 +59,12 @@ export function setLogout() {
 
 export function setArticle(id) {
   return async (dispatch) => {
+    if(!id) {
+      dispatch({ type: SET_ARTICLE, article: {} })
+    }
+
     const article = await articles.article(id)
+
     dispatch({ type: SET_ARTICLE, article })
   }
 }
@@ -69,25 +77,78 @@ export function setArticles() {
 }
 
 export function setEditing(editing) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    if (editing) {
+      let { titleText, articleText, isDraft } = getState().articles.detail
+      dispatch({ type: EDIT_ARTICLE,
+        article: { titleText, articleText, isDraft }})
+    }
     dispatch({ type: SET_EDITING, editing })
+  }
+}
+
+export function setPublished() {
+  return async (dispatch) => {
+    dispatch({ type: SET_PUBLISHED })
+  }
+}
+
+export function newArticle() {
+  return async (dispatch) => {
+    dispatch({ type: NEW_ARTICLE })
+  }
+}
+
+export function editArticle(article) {
+  return async (dispatch) => {
+    dispatch({ type: EDIT_ARTICLE, article})
+  }
+}
+
+export function discardArticle() {
+  return async (dispatch, getState) => {
+    let discard = window.confirm('Do you want to discard this article?')
+    if (!discard) return
+
+    dispatch({ type: EDIT_ARTICLE, article: {} })
+
+    dispatch({ type: SET_EDITING, editing: false })
+
+    let { id } = getState().articles.detail
+
+    setArticle(id)(dispatch)
   }
 }
 
 export function saveArticle() {
   return async (dispatch, getState) => {
-    let { article } = getState().articles
-    await articles.saveArticle(article)
+    let save = window.confirm('Do you want to save this article?')
+    if (!save) return
+
+    let { draft, detail } = getState().articles
+    let article = { ...detail, ...draft }
+
+    await articles.save(article)
 
     dispatch({ type: SAVE_ARTICLE, article })
+
+    dispatch({ type: SET_EDITING, editing: false })
+
+    setArticles()(dispatch)
   }
 }
 
 export function deleteArticle() {
   return async (dispatch, getState) => {
-    let { article } = getState().articles
-    await articles.deleteArticle(article)
+    let del = window.confirm('Are you sure you want to delete this article?')
+    if (!del) return
 
-    dispatch({ type: DELETE_ARTICLE, article })
+    let { detail } = getState().articles
+    await articles.delete(detail.id)
+
+    dispatch({ type: DELETE_ARTICLE, article: detail })
+    dispatch({ type: SET_EDITING, editing: false })
+
+    setArticles()(dispatch)
   }
 }

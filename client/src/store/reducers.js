@@ -2,7 +2,6 @@ import * as actions from './actions'
 import auth from '../services/auth'
 
 let username = auth.getUsername()
-debugger
 
 const initialState = {
   auth: {
@@ -11,6 +10,11 @@ const initialState = {
     loggedIn: !!username 
   },
   articles: {
+    draft: {
+      titleText: '',
+      articleText: '',
+      isDraft: true,
+    },
     detail: {
       id: 0,
       titleText: 'This is a page from the store',
@@ -62,12 +66,42 @@ function pagesApp(state = initialState, action) {
       return { ...state, articles: { ...state.articles, list: action.list } }
     case actions.SET_EDITING:
       return { ...state, articles: { ...state.articles, editing: action.editing } }
+    case actions.SET_PUBLISHED:
+      return { ...state,
+        articles: { 
+          ...state.articles, 
+          draft: { 
+            ...state.articles.draft,
+            isDraft: !state.articles.draft.isDraft
+          }
+        }
+      }
+    case actions.NEW_ARTICLE:
+      return { ...state,
+        articles: { 
+          ...state.articles,
+          editing: true,
+          detail: {},
+          draft: {
+            titleText: '',
+            articleText: '',
+            isDraft: true
+          }
+        }
+      }
+    case actions.EDIT_ARTICLE:
+      return { ...state,
+        articles: {
+          ...state.articles,
+          draft: { ...state.articles.draft, ...action.article}  
+        }
+      }
     case actions.SAVE_ARTICLE:
+      // make this add the article if it does not exist
       return { ...state, articles: { ...state.articles, detail: action.article } }
     case actions.DELETE_ARTICLE:
-      return { ...state, articles: {
-        ...state.articles,
-        list: state.articles.list.filter(a => a.id === action.article.id) }}
+      // make this delete the article
+      return { ...state, articles: { ...state.articles, detail: {}, draft: {}}}
     default:
       return state
   }

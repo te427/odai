@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import { Link, useRouteMatch } from 'react-router-dom'
 import { setArticle } from '../../store/actions'
 
-const ArticleNav = (name, id, onClick) => {
+const ArticleNav = (name, article, onClick) => {
   const match = useRouteMatch()
 
   return (
-    <li class="uk-nav-sub double-indented">
-      <Link to={`${match.url}/${name}`} onClick={onClick(id)}>{ name }</Link>
+    <li class="uk-nav-sub double-indented" 
+        style={{fontStyle: article.isDraft ? 'italic' : 'none'}}>
+      <Link to={`${match.url}/${name}`} onClick={onClick(article.id)}>{ name }</Link>
     </li>
   )
 }
