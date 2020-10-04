@@ -6,9 +6,7 @@ import ArticleSubNav from '../articles/SubNav'
 const Nav = () => (
   <div class="uk-card uk-width-1-5">
     <div>
-      THE <br/>
-      <Link to="/login"><b>ECHO</b></Link> <br/>
-      CHAMBER <br/>
+      <Link to="/login"><b>TE427</b></Link> <br/>
     </div>
     <hr class="uk-divider"/>
     <ul class="uk-nav uk-nav-default">

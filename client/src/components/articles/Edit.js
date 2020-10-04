@@ -16,17 +16,17 @@ const Edit = ({ article, editArticle }) => {
   }
 
   return (<div>
+      <div class="uk-flex uk-flex-between uk-margin">
+        {article.creationDate
+          ? (<div><i>Created:{article.creationDate}</i></div>)
+          : null}
+        {article.modificationDate
+          ? (<div><i>Modified:{article.modificationDate}</i></div>)
+          : null}
+      </div>
       <div class="uk-margin">
         <input class="uk-input" type="text" placeholder="Title"
             value={article.titleText} onChange={onTitleChange}/>
-      </div>
-      <div class="uk-margin">
-        {article.creationDate
-          ? (<div><label class="uk-label">Created:{article.creationDate}</label></div>)
-          : null}
-        {article.modificationDate
-          ? (<div><label class="uk-label">Modified:{article.modificationDate}</label></div>)
-          : null}
       </div>
       <SimpleMDE onChange={onTextChange} value={article.articleText}/>
     </div>

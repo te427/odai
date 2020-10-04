@@ -102,9 +102,22 @@ export function setArticles(refresh = false) {
 export function setEditing(editing) {
   return async (dispatch, getState) => {
     if (editing) {
-      let { titleText, articleText, isDraft } = getState().articles.detail
+      let { 
+        titleText, 
+        articleText, 
+        isDraft, 
+        creationDate,
+        modificationDate
+      } = getState().articles.detail
       dispatch({ type: EDIT_ARTICLE,
-        article: { titleText, articleText, isDraft }})
+        article: {
+          titleText,
+          articleText,
+          isDraft,
+          creationDate,
+          modificationDate
+        }
+      })
     }
     dispatch({ type: SET_EDITING, editing })
   }
