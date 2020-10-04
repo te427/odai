@@ -15,3 +15,7 @@ a:hover {
 .double-indented {
   padding-left: 8px;
 }
+
+em {
+  color: black;
+}
