@@ -84,7 +84,7 @@ export function setArticles(refresh = false) {
   return async (dispatch) => {
     const list = await articles.articles(refresh)
     const dict = await articles.articlesByName()
-
+    
     dispatch({ type: SET_ARTICLES, data: { list, dict } })
 
     let paths = window.location.pathname

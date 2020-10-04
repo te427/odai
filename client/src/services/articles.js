@@ -18,7 +18,7 @@ function convertDatesToString(article) {
 }
 
 function addRouteName(article) {
-  article.routeName = article.titleText.replace(/ /, '-')
+  article.routeName = article.titleText.replace(/ /g, '-')
 }
 
 function addMonthAndYear(article, month, year) {

@@ -8,7 +8,7 @@ const ArticleNav = (name, article, onClick) => {
 
   return (
     <li class="uk-nav-sub double-indented" 
-        style={{fontStyle: article.isDraft ? 'italic' : 'none'}}>
+        style={{fontStyle: article.isDraft ? 'italic' : 'normal'}}>
       <Link to={`${match.url}/${article.routeName}`} 
           onClick={onClick(article.id)}>{ name }</Link>
     </li>
