@@ -17,6 +17,7 @@ services:
     depends_on:
       - api 
   api:
+    build: ./server
     image: server
     command: gunicorn --bind 0.0.0.0:8888 server.wsgi
     env_file: ./server/.env
@@ -27,11 +28,7 @@ services:
     depends_on:
       - db
       - migration
-  migration:
-    build: ./server
-    image: server
-    env_file: ./server/.env
-    command: python manage.py migrate
+  # add an api_init dependency that runs collectstatic, migrate and createsuperuser
   web:
     build: ./client
     volumes:
