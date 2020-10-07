@@ -129,7 +129,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://localhost',
-] + os.getenv('DJANGO_CORS_ORIGIN_WHITELIST', '').split(',')
+    'http://ec2-18-236-113-60.us-west-2.compute.amazonaws.com'
+] 
 
 
 CORS_ALLOW_CREDENTIALS = True
