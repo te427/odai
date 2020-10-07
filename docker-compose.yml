@@ -27,7 +27,6 @@ services:
       - api-network
     depends_on:
       - db
-      - migration
   # add an api_init dependency that runs collectstatic, migrate and createsuperuser
   web:
     build: ./client
