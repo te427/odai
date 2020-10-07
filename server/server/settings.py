@@ -128,8 +128,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
-    'http://localhost'
-]
+    'http://localhost',
+] + os.getenv('DJANGO_CORS_ORIGIN_WHITELIST', '').split(',')
+
 
 CORS_ALLOW_CREDENTIALS = True
 
