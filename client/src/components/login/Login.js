@@ -16,27 +16,27 @@ const onSubmit = (e) => {
 }
 
 const Login = ({ csrf, loggedIn }) => (
-  <div class="login">
+  <div className="login">
     {!loggedIn
       ? (<form action="http://localhost:8000/api-auth/login/"
             method="POST" onSubmit={onSubmit}>
           <label>LOGIN</label>
-          <div class="uk-margin">
-            <div class="uk-inline">
-              <span class="uk-form-icon" uk-icon="icon: user"></span>
-              <input class="uk-input" name="username" type="text" required/>
+          <div className="uk-margin">
+            <div className="uk-inline">
+              <span className="uk-form-icon" uk-icon="icon: user"></span>
+              <input className="uk-input" name="username" type="text" required/>
             </div>
           </div>
-          <div class="uk-margin">
-            <div class="uk-inline">
-              <span class="uk-form-icon" uk-icon="icon: lock"></span>
-              <input class="uk-input" name="password" type="password" required/>
+          <div className="uk-margin">
+            <div className="uk-inline">
+              <span className="uk-form-icon" uk-icon="icon: lock"></span>
+              <input className="uk-input" name="password" type="password" required/>
             </div>
           </div>
           <input type="hidden" name="csrfmiddlewaretoken" value={csrf} />
-          <button class="uk-button uk-button-default">Submit</button>
+          <button className="uk-button uk-button-default">Submit</button>
         </form>)
-      : (<button class="uk-button uk-button-default"
+      : (<button className="uk-button uk-button-default"
           onClick={onClick}>Logout</button>) }
   </div>
 )

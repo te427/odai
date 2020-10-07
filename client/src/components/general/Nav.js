@@ -4,12 +4,12 @@ import { Switch, Route, Link } from 'react-router-dom'
 import ArticleSubNav from '../articles/SubNav'
 
 const Nav = () => (
-  <div class="uk-card uk-width-1-5">
+  <div className="uk-card uk-width-1-5">
     <div>
       TE <Link to="/login"><b>427</b></Link> <br/>
     </div>
-    <hr class="uk-divider"/>
-    <ul class="uk-nav uk-nav-default">
+    <hr className="uk-divider"/>
+    <ul className="uk-nav uk-nav-default">
       <li>
         <Link to="/">HOME</Link>
       </li>

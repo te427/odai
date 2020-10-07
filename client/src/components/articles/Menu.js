@@ -26,25 +26,25 @@ const Menu = ({
 
   const modifyButtons = editing
     ? (<span>
-        <button class="uk-button uk-button-default uk-button-small"
+        <button className="uk-button uk-button-default uk-button-small"
             onClick={saveArticle}>SAVE</button>
-        <button class="uk-button uk-button-default uk-button-small"
+        <button className="uk-button uk-button-default uk-button-small"
             onClick={discardArticle}>DISCARD</button>
-        <button class="uk-button uk-button-default uk-button-small"
+        <button className="uk-button uk-button-default uk-button-small"
             onClick={togglePublish}>
           { isDraft ? "PUBLISH" : "MARK AS DRAFT"}
         </button>
-        <button class="uk-button uk-button-default uk-button-small"
+        <button className="uk-button uk-button-default uk-button-small"
             onClick={deleteArticle}>DELETE</button>
       </span>)
     : hasArticle && !match.isExact
-      ? (<button class="uk-button uk-button-default uk-button-small"
+      ? (<button className="uk-button uk-button-default uk-button-small"
           onClick={startEditing}>EDIT</button>) 
       : null
 
   return loggedIn
-    ? (<div class="uk-card uk-margin">
-        <button class="uk-button uk-button-default uk-button-small" onClick={newArticle}>NEW</button>
+    ? (<div className="uk-card uk-margin">
+        <button className="uk-button uk-button-default uk-button-small" onClick={newArticle}>NEW</button>
         {modifyButtons}
       </div>)
     : null

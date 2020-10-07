@@ -1,32 +1,38 @@
-const COOKIE = document.cookie
-      .split(';')
-      .find(c => c.includes('csrf'))
-      .split('=')[1]
+import cookies from './cookies'
 
-const ADDR = 'http://localhost:8000/'
+const PROTOCOL = process.env.REACT_APP_API_PROTOCOL
+const HOST = process.env.REACT_APP_API_HOST
+const PORT = process.env.REACT_APP_API_PORT
 
-const FORM_OPTIONS = {
-  method: 'POST',
-  credentials: 'include',
-  mode: 'cors',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'x-csrftoken': COOKIE
+const ADDR = `${PROTOCOL}://${HOST}:${PORT}/`
+
+function formOptions () {
+  return {
+    method: 'POST',
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'x-csrftoken': cookies.get('csrf')
+    }
   }
 }
 
-const JSON_OPTIONS = {
-  credentials: 'include',
-  mode: 'cors',
-  headers: {
-    'Content-Type': 'application/json',
-    'x-csrftoken': COOKIE
+function jsonOptions (method) {
+  return {
+    method,
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-csrftoken': cookies.get('csrf')
+    }
   }
 }
+
+
 
 const GET_OPTIONS = { method: 'GET' }
-const POST_JSON_OPTIONS = { ...JSON_OPTIONS, method: 'POST'}
-const PUT_JSON_OPTIONS = { ...JSON_OPTIONS, method: 'PUT' }
 const DELETE_OPTIONS = { method: 'DELETE' }
 
 async function f(path, data = GET_OPTIONS) {
@@ -48,7 +54,7 @@ export default {
     
     return f(`api-auth/login/`, {
       body: params,
-      ...FORM_OPTIONS
+      ...formOptions()
     })
   },
   async logout() {
@@ -65,12 +71,12 @@ export default {
     if (article.id) {
       return f(`api/articles/${article.id}/`, {
         body: JSON.stringify(snakeCase),
-        ...PUT_JSON_OPTIONS
+        ...jsonOptions('PUT')
       })
     } 
     return f(`api/articles/`, {
       body: JSON.stringify(snakeCase),
-      ...POST_JSON_OPTIONS
+      ...jsonOptions('POST')
     })
   },
   async deleteArticle(id) {

@@ -30,7 +30,7 @@ const Article = ({ editing }) => {
   const content = editing ? (<Edit/>) : (<Content/>)
 
   return (
-    <div class="uk-card uk-width-3-5">
+    <div className="uk-card uk-width-3-5">
       <Menu />
       <Prompt when={editing} message={handleNav} />
       <Route path={`${match.path}/:articleName`}>

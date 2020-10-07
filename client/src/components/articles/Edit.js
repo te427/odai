@@ -16,7 +16,7 @@ const Edit = ({ article, editArticle }) => {
   }
 
   return (<div>
-      <div class="uk-flex uk-flex-between uk-margin">
+      <div className="uk-flex uk-flex-between uk-margin">
         {article.creationDate
           ? (<div><i>Created:{article.creationDate}</i></div>)
           : null}
@@ -24,8 +24,8 @@ const Edit = ({ article, editArticle }) => {
           ? (<div><i>Modified:{article.modificationDate}</i></div>)
           : null}
       </div>
-      <div class="uk-margin">
-        <input class="uk-input" type="text" placeholder="Title"
+      <div className="uk-margin">
+        <input className="uk-input" type="text" placeholder="Title"
             value={article.titleText} onChange={onTitleChange}/>
       </div>
       <SimpleMDE onChange={onTextChange} value={article.articleText}/>

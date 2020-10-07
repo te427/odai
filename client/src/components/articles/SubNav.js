@@ -7,7 +7,7 @@ const ArticleNav = (name, article, onClick) => {
   const match = useRouteMatch()
 
   return (
-    <li class="uk-nav-sub double-indented" 
+    <li key={name} className="uk-nav-sub double-indented" 
         style={{fontStyle: article.isDraft ? 'italic' : 'normal'}}>
       <Link to={`${match.url}/${article.routeName}`} 
           onClick={onClick(article.id)}>{ name }</Link>
@@ -16,8 +16,8 @@ const ArticleNav = (name, article, onClick) => {
 }
 
 const MonthNav = (month, articles, onClick) => (
-  <li class="uk-parent indented">
-    <a href="#">{ month }</a>
+  <li key={month} className="uk-parent indented">
+    <a href={month}>{ month }</a>
     <ul>
       {Object.keys(articles).map(name => ArticleNav(name, articles[name], onClick))}
     </ul>
@@ -25,9 +25,9 @@ const MonthNav = (month, articles, onClick) => (
 )
 
 const YearNav = (year, articles, onClick) => (
-  <li class="uk-parent">
-    <a href="#">{ year }</a>
-    <ul class="uk-nav-default" uk-nav="collapsible: true;">
+  <li key={year} className="uk-parent">
+    <a href={year}>{ year }</a>
+    <ul className="uk-nav-default" uk-nav="collapsible: true;">
       {Object.keys(articles).map(month => MonthNav(month, articles[month], onClick))}
     </ul>
   </li>
@@ -35,7 +35,7 @@ const YearNav = (year, articles, onClick) => (
 
 const SubNav = ({ articles, onClick }) => (
   <div>
-    <ul class="uk-nav-default" uk-nav="collapsible: true;">
+    <ul className="uk-nav-default" uk-nav="collapsible: true;">
       {Object.keys(articles).map(year => YearNav(year, articles[year], onClick))}
     </ul>
   </div>

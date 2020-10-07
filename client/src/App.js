@@ -4,7 +4,7 @@ import Page from './components/general/Page'
 
 function App() {
   return (
-    <div class="uk-container uk-padding-large">
+    <div className="uk-container uk-padding-large">
       <Page/>
     </div>
   )

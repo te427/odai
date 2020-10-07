@@ -9,7 +9,7 @@ import Article from '../articles/Article'
 import Recipe from '../recipes/Recipe'
 
 const Page = () => (
-  <div class="uk-grid">
+  <div className="uk-grid">
     <Nav/>
     <Switch>
       <Route path="/login">
