@@ -7,8 +7,6 @@ from .models import Article
 
 from datetime import datetime
 
-# Create your views here.
-
 class ArticleView(viewsets.ModelViewSet):
   queryset = Article.objects.all() # is_draft=false
   serializer_class = ArticlesSerializer

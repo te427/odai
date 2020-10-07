@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'articles.apps.ArticlesConfig',
+    'aauth.apps.AauthConfig',
 ]
 
 MIDDLEWARE = [

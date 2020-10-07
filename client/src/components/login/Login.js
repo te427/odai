@@ -15,7 +15,7 @@ const onSubmit = (e) => {
   store.dispatch(setLogin(form))
 }
 
-const Login = ({ csrf, loggedIn }) => (
+const Login = ({ loggedIn }) => (
   <div className="login">
     {!loggedIn
       ? (<form action="http://localhost:8000/api-auth/login/"
@@ -33,7 +33,6 @@ const Login = ({ csrf, loggedIn }) => (
               <input className="uk-input" name="password" type="password" required/>
             </div>
           </div>
-          <input type="hidden" name="csrfmiddlewaretoken" value={csrf} />
           <button className="uk-button uk-button-default">Submit</button>
         </form>)
       : (<button className="uk-button uk-button-default"
@@ -42,7 +41,7 @@ const Login = ({ csrf, loggedIn }) => (
 )
 
 const mapStateToProps = (state) => (
-  { csrf: state.auth.csrf, loggedIn: state.auth.loggedIn }
+  { loggedIn: state.auth.loggedIn }
 )
 
 export default connect(mapStateToProps)(Login)

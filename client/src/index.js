@@ -10,14 +10,13 @@ import './app.css'
 
 import { Provider } from 'react-redux'
 import store from './store/store'
-import { setCsrf } from './store/actions'
+
+import api from './services/api'
 
 import App from './App'
 
 // loads the Icon plugin
 UIkit.use(Icons)
-
-store.dispatch(setCsrf())
 
 ReactDOM.render(
   <React.StrictMode>

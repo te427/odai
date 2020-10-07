@@ -5,7 +5,6 @@ let username = auth.getUsername()
 
 const initialState = {
   auth: {
-    csrf: null,
     username,
     loggedIn: !!username 
   },
@@ -37,8 +36,6 @@ const initialState = {
 
 function pagesApp(state = initialState, action) {
   switch(action.type) {
-    case actions.SET_CSRF:
-      return { ...state, auth: { ...state.auth, csrf: action.csrf}}
     case actions.SET_LOGIN:
       return { ...state, 
         auth: {

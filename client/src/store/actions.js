@@ -3,7 +3,6 @@ import auth from '../services/auth'
 import notification from '../services/notification'
 
 // auth
-export const SET_CSRF = 'SET_CSRF'
 export const SET_LOGIN = 'SET_LOGIN'
 export const SET_LOGOUT = 'SET_LOGOUT'
 
@@ -16,14 +15,6 @@ export const NEW_ARTICLE = 'NEW_ARTICLE'
 export const EDIT_ARTICLE = 'EDIT_ARTICLE'
 export const SAVE_ARTICLE = 'SAVE_ARTICLE'
 export const DELETE_ARTICLE = 'DELETE_ARTICLE'
-
-export function setCsrf() {
-  return async (dispatch) => {
-    let csrf = auth.getCsrf()
-
-    dispatch({ type: SET_CSRF, csrf })
-  }
-}
 
 export function setLogin(form) {
   return async (dispatch) => {
@@ -72,11 +63,13 @@ export function setArticle(id) {
 
 export function setArticleByName(name) {
   return async (dispatch, getState) => {
-    const id = getState().articles.dict[name].id
+    let val = getState().articles.dict[name]
+    if (val) {
+      let id = val.id
+      const article = await articles.article(id)
 
-    const article = await articles.article(id)
-
-    dispatch({ type: SET_ARTICLE, article })
+      dispatch({ type: SET_ARTICLE, article })
+    }
   }
 }
 

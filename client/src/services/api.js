@@ -32,8 +32,8 @@ function jsonOptions (method) {
 
 
 
-const GET_OPTIONS = { method: 'GET' }
-const DELETE_OPTIONS = { method: 'DELETE' }
+const GET_OPTIONS = { method: 'GET', headers: { 'x-csrftoken': cookies.get('csrf') } }
+const DELETE_OPTIONS = { method: 'DELETE', headers: { 'x-csrftoken': cookies.get('csrf') } }
 
 async function f(path, data = GET_OPTIONS) {
   return fetch(`${ADDR}${path}`, data)
@@ -52,13 +52,13 @@ export default {
 
     Array(...form.entries()).forEach(q => params.append(q[0], q[1]))
     
-    return f(`api-auth/login/`, {
+    return f(`auth/login/`, {
       body: params,
       ...formOptions()
     })
   },
   async logout() {
-    return f('api-auth/logout/')
+    return f('auth/logout/', formOptions())
   },
   async articles() {
     return (await l(f('api/articles/'))).map(obj => c(obj))
