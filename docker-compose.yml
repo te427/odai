@@ -70,3 +70,6 @@ services:
 networks:
   api-network:
   db-network:
+
+volumes:
+  postgres-data:
