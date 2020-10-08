@@ -6,10 +6,6 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "*"
-djangorestframework = "*"
-django-cors-headers = "*"
-gunicorn = "*"
 psycopg2-binary = "*"
 
 [requires]

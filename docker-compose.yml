@@ -1,8 +1,28 @@
 version: "3.8"
    
 services:
-  db:
-    image: nouchka/sqlite3
+  web:
+    build: ./client
+    volumes:
+      - .:/code
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+  api:
+    build: ./server
+    image: server
+    command: gunicorn --bind 0.0.0.0:8888 server.wsgi
+    env_file: ./server/.env
+    links:
+      - db:db
+    volumes:
+      - .:/code
+    networks:
+      - api-network
+      - db-network
+    depends_on:
+      - db
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -25,26 +45,23 @@ services:
     depends_on:
       - api
       - db
-  api:
-    build: ./server
-    image: server
-    command: gunicorn --bind 0.0.0.0:8888 server.wsgi
-    env_file: ./server/.env
-    volumes:
-      - .:/code
-    networks:
-      - api-network
-    depends_on:
-      - db
-  # add an api_init dependency that runs collectstatic, migrate and createsuperuser
-  web:
-    build: ./client
-    volumes:
-      - .:/code
+  db:
+    container_name: db
+    image: postgres:10-alpine
+    restart: always
+    #env_file:
+    #  - ./server/.env
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
-      - "80:80"
-    depends_on:
-      - api
+      - 5432:5432
+    #volumes:
+    #  - postgres-data:/var/lib/postgresql/data
+    networks:
+      - db-network
 
 networks:
   api-network:
+  db-network:

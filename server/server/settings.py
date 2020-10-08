@@ -79,25 +79,26 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DEV_DATABASE = {
-    'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': BASE_DIR / 'db.sqlite3',
-}
-
-# PROD_DATABASE = {
-#     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#     'NAME': 'mydb',
-#     'USER': 'myuser',
-#     'PASSWORD': 'mypass',
-#     'HOST': 'localhost',
-#     'PORT': '',
+# DEV_DATABASE = {
+#     'ENGINE': 'django.db.backends.sqlite3',
+#     'NAME': BASE_DIR / 'db.sqlite3',
 # }
 
 DATABASES = {
-    # 'default': DEV_DATABASE if os.getenv('DJANGO_DB', 'dev') == 'dev' else PROD_DATABASE
-    'default': DEV_DATABASE
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        # "NAME": os.getenv('POSTGRES_DB', ''),
+        # "USER": os.getenv('POSTGRES_USER', ''),
+        # "PASSWORD": os.getenv('POSTGRES_PASSWORD', ''),
+        # "HOST": os.getenv('DATABASE_HOST', ''),
+        # "PORT": os.getenv('DATABASE_PORT', '')
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
