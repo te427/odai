@@ -79,11 +79,23 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+DEV_DATABASE = {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': BASE_DIR / 'db.sqlite3',
+}
+
+# PROD_DATABASE = {
+#     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#     'NAME': 'mydb',
+#     'USER': 'myuser',
+#     'PASSWORD': 'mypass',
+#     'HOST': 'localhost',
+#     'PORT': '',
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    # 'default': DEV_DATABASE if os.getenv('DJANGO_DB', 'dev') == 'dev' else PROD_DATABASE
+    'default': DEV_DATABASE
 }
 
 

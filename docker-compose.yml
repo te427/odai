@@ -16,6 +16,15 @@ services:
       - api-network
     depends_on:
       - api 
+  migration:
+    image: server
+    command: sh scripts/init.sh
+    env_file: ./server/.env
+    volumes:
+      - .:/code
+    depends_on:
+      - api
+      - db
   api:
     build: ./server
     image: server

@@ -36,6 +36,15 @@ const Article = ({ editing }) => {
       <Route path={`${match.path}/:articleName`}>
         {content}
       </Route>
+      <Route exact path={`${match.path}`}>
+        {editing 
+          ? content
+          : (<div>
+              <p>Articles are on the left...</p>
+              <p>( ͡• ͜ʖ ͡•) </p>
+            </div>)
+        }
+      </Route>
     </div>
   ) 
 }

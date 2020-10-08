@@ -19,3 +19,7 @@ a:hover {
 em {
   color: black;
 }
+
+.pixelated {
+  image-rendering: pixelated;
+}

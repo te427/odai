@@ -24,3 +24,11 @@ class ArticleView(viewsets.ModelViewSet):
       return self.action_serializers.get(self.action, self.serializer_class)
 
     return super(viewsets.ModelViewSet, self).get_serializer_class()
+
+  def get(self, request):
+    if request.user.is_authenticated:
+      articles = Article.objects.all()
+    else:
+      articles = Article.objects.filter(is_draft=False)
+    serializer = self.get_serializer_class()(articles)
+    return Response(serializer.data)
